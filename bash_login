@@ -28,7 +28,7 @@ function note () {
   then
     filename="`date +%Y-%m-%d`_$1"
   else
-    filename="temp_`date +%Y-%m-%d`_`LC_CTYPE=C tr -dc '[:alpha:]' < /dev/random | head -c 8`"
+    filename="temp_`date +%Y-%m-%d`_$RANDOM"
   fi
   vim ~/Desktop/notes/${filename}.txt
 }
