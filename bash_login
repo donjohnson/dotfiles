@@ -19,6 +19,7 @@ function sum_cpu () {
 HISTFILESIZE=1000000000
 HISTSIZE=1000000
 alias ll='ls -l'
+alias v='vagrant'
 export HISTFILESIZE HISTSIZE
 
 
