@@ -18,9 +18,13 @@ function sum_cpu () {
 }
 HISTFILESIZE=1000000000
 HISTSIZE=1000000
-alias ll='ls -l'
+alias ll='ls -ltr'
 alias v='vagrant'
 export HISTFILESIZE HISTSIZE
+
+alias gits='git status'
+alias gita='git add'
+alias gitb='git branch'
 
 
 function note () {
@@ -30,6 +34,7 @@ function note () {
   else
     filename="temp_`date +%Y-%m-%d`_$RANDOM"
   fi
+  echo -e "\033]50;SetProfile=Note\a"
   vim ~/Desktop/notes/${filename}.txt
 }
 
@@ -58,3 +63,34 @@ function extract()      # Handy Extract Program
 alias bt='echo 0 | gdb -batch-silent -ex "run" -ex "set logging overwrite on" -ex "set logging file gdb.bt" -ex "set logging on" -ex "set pagination off" -ex "handle SIG33 pass nostop noprint" -ex "echo backtrace:\n" -ex "backtrace full" -ex "echo \n\nregisters:\n" -ex "info registers" -ex "echo \n\ncurrent instructions:\n" -ex "x/16i \$pc" -ex "echo \n\nthreads backtrace:\n" -ex "thread apply all backtrace" -ex "set logging off" -ex "quit" --args'
 
 #This monstrosity produces a full backtrace of a crashing binary. Use with bt something_that_crashes. Very useful if you just want to see why it happens or collect information for a bug report. Disclaimer: someone else wrote this, don't blame me if it doesn't work.
+
+function dev() 
+{
+  ssh -i ~/.ssh/stack-dev.pem ec2-user@$1
+}
+
+function ec2() 
+{
+  ssh -i ~/.ssh/daqri-prod.pem -i ~/.ssh/stack-dev.pem -i ~/.ssh/id_rsa ec2-user@$1
+}
+
+function ec2u() 
+{
+  ssh -i ~/.ssh/daqri-prod.pem -i ~/.ssh/stack-dev.pem -i ~/.ssh/id_rsa ubuntu@$1
+}
+
+# added by Anaconda 1.9.1 installer
+export PATH="/Users/donjohnson/anaconda/bin:$PATH"
+source /Users/donjohnson/.rvm/scripts/rvm
+alias psql='/Applications/Postgres.app/Contents/Versions/9.3/bin/psql'
+if [ -d $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion/*
+fi
+
+#function ssh() {
+#  SAVED_ITERM_PROFILE=$ITERM_PROFILE
+#  ssh $@
+#  echo -e "\033]50;SetProfile=$SAVED_ITERM_PROFILE\a";
+#}
+
+export PS1="\[\033[32m\]\[\033[33;1m\]\w\[\033[m\] \$(git branch 2>/dev/null | grep '^*' | colrm 1 2 |sed -e 's/\(.*\)/[\\1]/g') \$ "

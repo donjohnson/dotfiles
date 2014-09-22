@@ -14,3 +14,16 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%0
 if filereadable("/etc/vim/jhdark.vim")
   source /etc/vim/jhdark.vim
 endif
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set smarttab
+function! ToggleCursorline()
+  if &cursorline == 1
+    set nocursorline
+  else
+    set cursorline
+  endif
+endfunction
+nnoremap <space> :call ToggleCursorline()<cr>
+au BufNewFile,BufRead *.sls set filetype=yaml
