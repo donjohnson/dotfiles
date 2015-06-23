@@ -1,31 +1,27 @@
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-# MacPorts Installer addition on 2012-10-18_at_15:54:26: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH
-# added by Anaconda 1.8.0 installer
-export PATH="//anaconda/bin:$PATH"
-PATH=$PATH:/Applications/VirtualBox.app/Contents/MacOS/
-export PATH
-
-
-function sum_mem () {
-  ps aux | awk 'NR>1 {s[$11]=s[$11]+$4} END {for (i in s) {print s[i] " " i}}' |sort -n|grep -v '^0 '
-}
-
-function sum_cpu () {
-  ps aux | awk 'NR>1 {s[$11]=s[$11]+$3} END {for (i in s) {print s[i] " " i}}' |sort -n|grep -v '^0 '
-}
+PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH
 HISTFILESIZE=1000000000
 HISTSIZE=1000000
+HISTTIMEFORMAT="%d/%m/%y %T "
+PS1="\[\033[32m\]\[\033[33;1m\]\w\[\033[m\] \$(git branch 2>/dev/null | grep '^*' | colrm 1 2 |sed -e 's/\(.*\)/[\\1]/g') \$ "
+export HISTFILESIZE HISTSIZE HISTTIMEFORMAT PS1 PATH
+
 alias ll='ls -ltr'
-alias v='vagrant'
-export HISTFILESIZE HISTSIZE
+alias hrep='history|grep'
 
 alias gits='git status'
 alias gita='git add'
 alias gitb='git branch'
 
+alias ap='ansible-playbook'
+
+
+############################## useful functions
+function sum_mem () {
+  ps aux | awk 'NR>1 {s[$11]=s[$11]+$4} END {for (i in s) {print s[i] " " i}}' |sort -n|grep -v '^0 '
+}
+function sum_cpu () {
+  ps aux | awk 'NR>1 {s[$11]=s[$11]+$3} END {for (i in s) {print s[i] " " i}}' |sort -n|grep -v '^0 '
+}
 
 function note () {
   if [ "$1" ]
@@ -38,59 +34,12 @@ function note () {
   vim ~/Desktop/notes/${filename}.txt
 }
 
-function extract()      # Handy Extract Program
-{
-    if [ -f $1 ] ; then
-        case $1 in
-            *.tar.bz2)   tar xvjf "$1"    ;;
-            *.tar.gz)    tar xvzf "$1"    ;;
-            *.bz2)       bunzip2 "$1"     ;;
-            *.rar)       unrar x "$1"     ;;
-            *.gz)        gunzip "$1"      ;;
-            *.tar)       tar xvf "$1"     ;;
-            *.tbz2)      tar xvjf "$1"    ;;
-            *.tgz)       tar xvzf "$1"    ;;
-            *.zip)       unzip "$1"       ;;
-            *.Z)         uncompress "$1"  ;;
-            *.7z)        7z x "$1"        ;;
-            *)           echo "'$1' cannot be extracted via >extract<" ;;
-        esac
-    else
-        echo "'$1' is not a valid file!"
-    fi
-}
-
-alias bt='echo 0 | gdb -batch-silent -ex "run" -ex "set logging overwrite on" -ex "set logging file gdb.bt" -ex "set logging on" -ex "set pagination off" -ex "handle SIG33 pass nostop noprint" -ex "echo backtrace:\n" -ex "backtrace full" -ex "echo \n\nregisters:\n" -ex "info registers" -ex "echo \n\ncurrent instructions:\n" -ex "x/16i \$pc" -ex "echo \n\nthreads backtrace:\n" -ex "thread apply all backtrace" -ex "set logging off" -ex "quit" --args'
-
-#This monstrosity produces a full backtrace of a crashing binary. Use with bt something_that_crashes. Very useful if you just want to see why it happens or collect information for a bug report. Disclaimer: someone else wrote this, don't blame me if it doesn't work.
-
-function dev() 
-{
-  ssh -i ~/.ssh/stack-dev.pem ec2-user@$1
-}
-
-function ec2() 
-{
-  ssh -i ~/.ssh/daqri-prod.pem -i ~/.ssh/stack-dev.pem -i ~/.ssh/id_rsa ec2-user@$1
-}
-
-function ec2u() 
-{
-  ssh -i ~/.ssh/daqri-prod.pem -i ~/.ssh/stack-dev.pem -i ~/.ssh/id_rsa ubuntu@$1
-}
-
-# added by Anaconda 1.9.1 installer
-export PATH="/Users/donjohnson/anaconda/bin:$PATH"
-source /Users/donjohnson/.rvm/scripts/rvm
-alias psql='/Applications/Postgres.app/Contents/Versions/9.3/bin/psql'
-if [ -d $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion/*
-fi
-
 #function ssh() {
 #  SAVED_ITERM_PROFILE=$ITERM_PROFILE
 #  ssh $@
 #  echo -e "\033]50;SetProfile=$SAVED_ITERM_PROFILE\a";
 #}
+#############################
 
-export PS1="\[\033[32m\]\[\033[33;1m\]\w\[\033[m\] \$(git branch 2>/dev/null | grep '^*' | colrm 1 2 |sed -e 's/\(.*\)/[\\1]/g') \$ "
+
+eval "$(rbenv init -)"
