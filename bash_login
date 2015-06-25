@@ -13,6 +13,7 @@ alias gita='git add'
 alias gitb='git branch'
 
 alias ap='ansible-playbook'
+alias d='ssh djdev'
 
 
 ############################## useful functions
