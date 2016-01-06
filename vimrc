@@ -27,3 +27,6 @@ function! ToggleCursorline()
 endfunction
 nnoremap <space> :call ToggleCursorline()<cr>
 au BufNewFile,BufRead *.sls set filetype=yaml
+
+nmap f xi<C-R>=strftime("x [%a %b%d %I:%M%p]")<CR><Esc> " map f to replace below char with timestamp
+imap <F3> <C-R>=strftime("x [%Y/%m/%d %a %I:%M%p]")<CR>
