@@ -9,6 +9,7 @@ noremap <Up> <nop>
 noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
+noremap <F8> :Geeknote<cr>
 set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 if filereadable("/etc/vim/jhdark.vim")
@@ -30,3 +31,6 @@ au BufNewFile,BufRead *.sls set filetype=yaml
 
 nmap f xi<C-R>=strftime("x [%a %b%d %I:%M%p]")<CR><Esc> " map f to replace below char with timestamp
 imap <F3> <C-R>=strftime("x [%Y/%m/%d %a %I:%M%p]")<CR>
+
+set updatetime=1000
+autocmd CursorHold * silent w
