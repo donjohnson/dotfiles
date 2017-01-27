@@ -74,18 +74,26 @@ bindkey '^r' history-incremental-search-backward
 
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1" #$(git_custom_status) 
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1" #$(git_custom_status)
     zle reset-prompt
 }
 
 zle -N zle-line-init
 zle -N zle-keymap-select
 export KEYTIMEOUT=1
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/djoh68/.local/lib/aws/bin:/Users/djoh68/nike/bin
 
 # aliases and helper functions
 alias ll='ls -ltr'
-alias hrep='history|grep'
+alias history='history 1'
+#alias hrep='history 1|grep '
+
+function hrep () {
+ if [ "$1" ]
+ then
+   fc -l 1|grep "$1" -
+ fi
+}
 
 alias gits='git status'
 alias gita='git add'
@@ -111,4 +119,3 @@ function note () {
   echo -e "\033]50;SetProfile=Note\a"
   vim ~/nike/notes/${filename}.txt
 }
-
