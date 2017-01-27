@@ -99,15 +99,6 @@ alias gits='git status'
 alias gita='git add'
 alias gitb='git branch'
 
-function pass() {
- if [ "$1" ]
- then
-   host_string="$1"
-   pass=$(grep "$host_string\.pass=" ~/nike/passwd.txt|cut -d"=" -f2)
-   echo $pass
- fi
-}
-
 #TODO integrate this with geeknote/evernote
 function note () {
   if [ "$1" ]
